@@ -1,4 +1,1 @@
-
-import 'package:flutter/material.dart';
-
-const kPrimaryColor = Colors.deepPurple;
+// TODO: Implement constants.dart

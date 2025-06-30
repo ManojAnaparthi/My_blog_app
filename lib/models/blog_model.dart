@@ -1,4 +1,4 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class Blog {
   final String blogId;
   final String authorId;
@@ -18,15 +18,15 @@ class Blog {
     required this.likes,
   });
 
-  factory Blog.fromMap(Map<String, dynamic> map, String id) {
+  factory Blog.fromMap(Map<String, dynamic> data, String id) {
     return Blog(
       blogId: id,
-      authorId: map['authorId'],
-      authorName: map['authorName'],
-      title: map['title'],
-      content: map['content'],
-      timestamp: map['timestamp'].toDate(),
-      likes: List<String>.from(map['likes'] ?? []),
+      authorId: data['authorId'],
+      authorName: data['authorName'],
+      title: data['title'],
+      content: data['content'],
+      timestamp: (data['timestamp'] as Timestamp).toDate(),
+      likes: List<String>.from(data['likes']),
     );
   }
 

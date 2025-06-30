@@ -1,4 +1,4 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class Comment {
   final String commentId;
   final String commenterId;
@@ -12,12 +12,12 @@ class Comment {
     required this.timestamp,
   });
 
-  factory Comment.fromMap(Map<String, dynamic> map, String id) {
+  factory Comment.fromMap(Map<String, dynamic> data, String id) {
     return Comment(
       commentId: id,
-      commenterId: map['commenterId'],
-      content: map['content'],
-      timestamp: map['timestamp'].toDate(),
+      commenterId: data['commenterId'],
+      content: data['content'],
+      timestamp: (data['timestamp'] as Timestamp).toDate(),
     );
   }
 

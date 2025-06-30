@@ -1,78 +1,51 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/blog_model.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/blog_provider.dart';
-import '../blog/blog_detail_screen.dart';
-import '../blog/create_blog_screen.dart';
+import '../../../providers/blog_provider.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../widgets/blog_tile.dart';
+import '../../../models/blog_model.dart';
 
-class ExploreScreen extends StatefulWidget {
+class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
 
   @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
-}
-
-class _ExploreScreenState extends State<ExploreScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<BlogProvider>(context, listen: false).loadAllBlogs();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final blogs = Provider.of<BlogProvider>(context).blogs;
-    final auth = Provider.of<AuthProvider>(context);
+    final blogProvider = Provider.of<BlogProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
+    final blogs = blogProvider.blogs;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Explore Blogs'),
+        title: const Text('Explore'),
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              Navigator.pushNamed(context, '/profile');
+              Navigator.pushNamed(context, '/profile', arguments: authProvider.user!.uid);
             },
           ),
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await auth.logout();
-              if (context.mounted) {
-                Navigator.pushReplacementNamed(context, '/');
-              }
-            },
+            onPressed: () => authProvider.logout(),
           ),
         ],
       ),
-      body: blogs.isEmpty
-          ? const Center(child: Text('No blogs available'))
-          : ListView.builder(
-              itemCount: blogs.length,
-              itemBuilder: (context, index) {
-                final blog = blogs[index];
-                return ListTile(
-                  title: Text(blog.title),
-                  subtitle: Text('by ${blog.authorName}'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlogDetailScreen(blog: blog),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+      body: ListView.builder(
+        itemCount: blogs.length,
+        itemBuilder: (context, index) {
+          final Blog blog = blogs[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/blogDetail', arguments: blog);
+            },
+            child: BlogTile(blog: blog, currentUserId: authProvider.user!.uid),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const CreateBlogScreen()),
-          );
+          Navigator.pushNamed(context, '/createBlog');
         },
         child: const Icon(Icons.add),
       ),

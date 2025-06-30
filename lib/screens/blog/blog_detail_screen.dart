@@ -1,11 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/blog_model.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/blog_provider.dart';
+import '../../../models/blog_model.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../providers/blog_provider.dart';
 import '../comments/comment_screen.dart';
-import 'edit_blog_screen.dart';
 
 class BlogDetailScreen extends StatelessWidget {
   final Blog blog;
@@ -13,72 +12,55 @@ class BlogDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final blogProvider = Provider.of<BlogProvider>(context, listen: false);
-    final isOwner = authProvider.user?.uid == blog.authorId;
-    final isLiked = blog.likes.contains(authProvider.user!.uid);
+    final auth = Provider.of<AuthProvider>(context);
+    final blogProvider = Provider.of<BlogProvider>(context);
+    final isAuthor = auth.user!.uid == blog.authorId;
+    final isLiked = blog.likes.contains(auth.user!.uid);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(blog.title),
-        actions: isOwner
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => EditBlogScreen(blog: blog),
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () async {
-                    await blogProvider.deleteBlog(blog.blogId);
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-              ]
-            : [],
-      ),
+      appBar: AppBar(title: Text(blog.title)),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('by ${blog.authorName}',
-                style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 10),
             Text(blog.content),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
+            Text("By ${blog.authorName}", style: const TextStyle(color: Colors.grey)),
+            const SizedBox(height: 12),
             Row(
               children: [
                 IconButton(
-                  icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border),
+                  icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border, color: isLiked ? Colors.red : null),
                   onPressed: () {
-                    blogProvider.toggleLike(blog.blogId, authProvider.user!.uid);
+                    blogProvider.toggleLike(blog.blogId, auth.user!.uid);
                   },
                 ),
                 Text('${blog.likes.length} likes'),
-                const SizedBox(width: 20),
-                TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => CommentScreen(blogId: blog.blogId),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.comment),
-                  label: const Text('Comments'),
-                ),
+                const Spacer(),
+                if (isAuthor)
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/editBlog', arguments: blog);
+                    },
+                  ),
               ],
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CommentScreen(
+                      blogId: blog.blogId,
+                      blogAuthorId: blog.authorId,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.comment),
+              label: const Text("View Comments"),
             )
           ],
         ),

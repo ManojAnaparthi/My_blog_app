@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/blog_model.dart';
-import '../../providers/blog_provider.dart';
+import '../../../models/blog_model.dart';
+import '../../../providers/blog_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditBlogScreen extends StatefulWidget {
   final Blog blog;
@@ -15,8 +16,6 @@ class EditBlogScreen extends StatefulWidget {
 class _EditBlogScreenState extends State<EditBlogScreen> {
   late TextEditingController _titleController;
   late TextEditingController _contentController;
-  final _formKey = GlobalKey<FormState>();
-  bool _loading = false;
 
   @override
   void initState() {
@@ -26,56 +25,39 @@ class _EditBlogScreenState extends State<EditBlogScreen> {
   }
 
   @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final blogProvider = Provider.of<BlogProvider>(context, listen: false);
+    final blogProvider = Provider.of<BlogProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Blog')),
+      appBar: AppBar(title: const Text("Edit Blog")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
-                validator: (val) => val!.isEmpty ? 'Enter title' : null,
-              ),
-              TextFormField(
-                controller: _contentController,
-                maxLines: 6,
-                decoration: const InputDecoration(labelText: 'Content'),
-                validator: (val) => val!.isEmpty ? 'Enter content' : null,
-              ),
-              const SizedBox(height: 20),
-              _loading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() => _loading = true);
-                          await blogProvider.updateBlog(
-                            blogId: widget.blog.blogId,
-                            title: _titleController.text.trim(),
-                            content: _contentController.text.trim(),
-                          );
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                          }
-                        }
-                      },
-                      child: const Text('Update Blog'),
-                    )
-            ],
-          ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(labelText: "Title"),
+            ),
+            TextField(
+              controller: _contentController,
+              decoration: const InputDecoration(labelText: "Content"),
+              maxLines: 6,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('blogs')
+                    .doc(widget.blog.blogId)
+                    .update({
+                  'title': _titleController.text,
+                  'content': _contentController.text,
+                });
+                Navigator.pop(context);
+              },
+              child: const Text("Update Blog"),
+            )
+          ],
         ),
       ),
     );

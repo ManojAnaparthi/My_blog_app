@@ -1,48 +1,49 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../services/auth_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AuthProvider with ChangeNotifier {
-  final AuthService _authService = AuthService();
+class AuthProvider extends ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
 
   User? get user => _user;
-
   bool get isLoggedIn => _user != null;
 
   AuthProvider() {
-    _authService.authStateChanges.listen((user) {
+    _auth.authStateChanges().listen((user) {
       _user = user;
       notifyListeners();
     });
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<String?> login(String email, String password) async {
     try {
-      final result = await _authService.login(email, password);
-      _user = result;
-      notifyListeners();
-      return true;
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return null;
     } catch (e) {
-      return false;
+      return e.toString();
     }
   }
 
-  Future<bool> signUp(String email, String password) async {
+  Future<String?> signup(String email, String password, String username, String profileUrl) async {
     try {
-      final result = await _authService.signUp(email, password);
-      _user = result;
-      notifyListeners();
-      return true;
+      final UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
+        'uid': cred.user!.uid,
+        'email': email,
+        'username': username,
+        'profilePicUrl': profileUrl,
+        'followers': [],
+        'following': [],
+      });
+      return null;
     } catch (e) {
-      return false;
+      return e.toString();
     }
   }
 
   Future<void> logout() async {
-    await _authService.logout();
-    _user = null;
-    notifyListeners();
+    await _auth.signOut();
   }
 }
