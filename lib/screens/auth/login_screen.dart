@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.pushNamed(context, '/signup');
                 },
                 child: const Text('Don't have an account? Sign up'),
-              )
+              ),
             ],
           ),
         ),
