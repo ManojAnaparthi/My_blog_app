@@ -17,6 +17,9 @@
 
 ---
 
+
+
+
 ## 📷 Screenshots
 
 <img src="https://github.com/user-attachments/assets/35db1c06-1fb8-4143-9bbb-f84dc3f8b08b" width="200">
@@ -33,7 +36,7 @@
 
 ## 🎥 Screen Recording
 
-▶️ [Watch Demo]()
+▶️ [Watch Demo](https://github.com/user-attachments/assets/c5b113e1-eb59-4367-a2a6-b9a177369f4a)
 
 ---
 
