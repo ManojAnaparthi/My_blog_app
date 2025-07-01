@@ -1,20 +1,19 @@
-<img src = "[https://github.com/user-attachments/assets/64fade4f-7120-4ff8-9c5f-3a07b353f91d](https://github.com/user-attachments/assets/b7165107-f408-4b57-9dfe-85dc749aabdf)" width = 200>
-# BlogSphere 📝✨
+# My Blog App 📝✨
 
-**BlogSphere** is a full-featured social blogging app built using **Flutter** and **Firebase**. It enables users to create, view, and engage with blog content in real-time. The app features likes, comments, user profiles, and following functionality — all tied together with a clean and responsive UI.
+**My Blog App** is a full-featured social blogging platform built using **Flutter** and **Firebase**. It allows users to create, explore, and engage with blog posts in real time. Users can like, comment, follow others, and manage their own content with ease.
 
 ---
 
 ## 🚀 Features
 
-- ✍️ **Create, edit, and delete blogs**
-- ❤️ **Like and comment** on posts
-- 🧑‍🤝‍🧑 **Follow/unfollow** other users
-- 🌐 **Explore all posts** or filter by followed users
-- 👤 **User profiles** with follower/following counts
-- 📸 **Profile pictures** with cached image loading
-- 🔐 **Firebase Auth** for secure login/signup
-- 🔄 **Real-time updates** with Firestore and Provider
+- ✍️ Create, edit, and delete blogs
+- ❤️ Like and comment on posts
+- 👤 View user profiles
+- 🧑‍🤝‍🧑 Follow and unfollow other users
+- 🌐 Explore all blogs or filter by followed users
+- 📸 Profile pictures with caching support
+- 🔐 Firebase Authentication
+- 🔄 Real-time updates using Firestore and Provider
 
 ---
 
@@ -97,7 +96,6 @@
 ## 📝 Notes
 
 > This project was developed as part of the **Week 4 assignment** for the Flutter + Firebase App Development course.  
-> The app demonstrates best practices in authentication, Firestore schema design, and clean Flutter architecture.
+> It demonstrates key concepts in authentication, Firestore schema design, and responsive Flutter app architecture.
 
 ---
-
