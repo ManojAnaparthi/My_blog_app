@@ -19,15 +19,21 @@
 
 ## 📷 Screenshots
 
-<img src="https://github.com/user-attachments/assets/profile-sample-1.png" width="200">
-<img src="https://github.com/user-attachments/assets/profile-sample-2.png" width="200">
-<img src="https://github.com/user-attachments/assets/profile-sample-3.png" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/35db1c06-1fb8-4143-9bbb-f84dc3f8b08b)" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/da2ecf97-733b-42ca-ab3a-0fc14c3657cc)" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/189dca73-bb1a-4dd6-9eac-c12804e0f169)" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/10ddd4b3-6ff6-4c8e-a99f-b5b8a8f9ab32)" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/2c68b401-ad1f-499e-befd-7b49da1e4871)" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/03d07824-d44f-4f27-9734-3b768f161cfa)" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/d2466976-1505-4a9b-95a0-b4c9913aed87)" width="200">
+<img src="[https://github.com/user-attachments/assets/profile-sample-1.png](https://github.com/user-attachments/assets/c3a50340-a55a-4e28-8abf-283947cbea0f)" width="200">
+
 
 ---
 
 ## 🎥 Screen Recording
 
-▶️ [Watch Demo on Google Drive](https://drive.google.com/file/d/15iWAOUeqg2N_NMOPcqrONHKAEp3uwlzq/view?usp=drivesdk)
+▶️ [Watch Demo]()
 
 ---
 
