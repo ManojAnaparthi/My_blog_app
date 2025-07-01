@@ -20,4 +20,3 @@ class BlogProvider extends ChangeNotifier {
 
   Future<void> toggleLike(String blogId, String uid) => _blogService.toggleLike(blogId, uid);
 }
-

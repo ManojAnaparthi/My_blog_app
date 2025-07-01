@@ -35,7 +35,18 @@ class MyApp extends StatelessWidget {
         builder: (context, authProvider, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: authProvider.isLoggedIn ? const ExploreScreen() : const LoginScreen(),
+            home: authProvider.isLoggedIn
+                ? FutureBuilder(
+              future: Provider.of<UserProvider>(context, listen: false)
+                  .loadCurrentUser(authProvider.user!.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return const ExploreScreen();
+              },
+            )
+                : const LoginScreen(),
             routes: {
               '/login': (_) => const LoginScreen(),
               '/signup': (_) => const SignupScreen(),

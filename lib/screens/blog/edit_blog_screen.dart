@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../../models/blog_model.dart';
 import '../../../providers/blog_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 class EditBlogScreen extends StatefulWidget {
   final Blog blog;
   const EditBlogScreen({super.key, required this.blog});

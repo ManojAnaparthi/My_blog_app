@@ -1,45 +1,38 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../models/blog_model.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../providers/blog_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../../../providers/blog_provider.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../widgets/blog_tile.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   final String uid;
   const ProfileScreen({super.key, required this.uid});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<UserProvider>(context, listen: false).fetchUser(widget.uid);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context);
     final blogProvider = Provider.of<BlogProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
 
-    final currentUser = authProvider.user!;
     final viewedUser = userProvider.viewedUser;
+    final currentUser = userProvider.currentUser;
 
-    final userBlogs = blogProvider.blogs.where((b) => b.authorId == widget.uid).toList();
+    if (viewedUser == null || viewedUser.uid != uid) {
+      userProvider.fetchUser(uid);
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
-    if (viewedUser == null) return const Scaffold(body: Center(child: CircularProgressIndicator()));
-
-    final isFollowing = viewedUser.followers.contains(currentUser.uid);
+    final userBlogs = blogProvider.blogs
+        .where((blog) => blog.authorId == viewedUser.uid)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(title: Text(viewedUser.username)),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             CircleAvatar(
@@ -47,25 +40,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
               radius: 40,
             ),
             const SizedBox(height: 12),
+            Text(viewedUser.username,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Text(viewedUser.email),
             const SizedBox(height: 8),
-            Text("Followers: ${viewedUser.followers.length} • Following: ${viewedUser.following.length}"),
+            Text("Followers: ${viewedUser.followers.length}"),
+            Text("Following: ${viewedUser.following.length}"),
             const SizedBox(height: 12),
-            if (currentUser.uid != viewedUser.uid)
+            if (viewedUser.uid != currentUser?.uid)
               ElevatedButton(
-                onPressed: () => userProvider.toggleFollow(currentUser.uid, viewedUser.uid),
-                child: Text(isFollowing ? 'Unfollow' : 'Follow'),
+                onPressed: () async {
+                  await userProvider.toggleFollow(currentUser!.uid, viewedUser.uid);
+                  await userProvider.loadCurrentUser(currentUser.uid);
+                },
+                child: Text(
+                  currentUser!.following.contains(viewedUser.uid) ? 'Unfollow' : 'Follow',
+                ),
               ),
-            const Divider(height: 32),
-            const Text('Blogs', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Divider(),
+            const SizedBox(height: 8),
+            const Text('Blogs:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             Expanded(
               child: ListView.builder(
                 itemCount: userBlogs.length,
                 itemBuilder: (context, index) {
-                  final blog = userBlogs[index];
-                  return ListTile(
-                    title: Text(blog.title),
-                    subtitle: Text(blog.content),
+                  return BlogTile(
+                    blog: userBlogs[index],
+                    currentUserId: authProvider.user!.uid,
                   );
                 },
               ),
