@@ -1,62 +1,60 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/blog_provider.dart';
-import '../../models/blog_model.dart';
+import '../../../models/blog_model.dart';
+import '../../../providers/blog_provider.dart';
+import '../../../providers/auth_provider.dart';
 
 class CreateBlogScreen extends StatefulWidget {
   const CreateBlogScreen({super.key});
+
   @override
   State<CreateBlogScreen> createState() => _CreateBlogScreenState();
 }
 
 class _CreateBlogScreenState extends State<CreateBlogScreen> {
-  final titleController = TextEditingController();
-  final contentController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  bool loading = false;
+  final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final blogProvider = Provider.of<BlogProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Blog')),
+      appBar: AppBar(title: const Text("Create Blog")),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(controller: titleController, decoration: const InputDecoration(labelText: "Title"), validator: (v) => v == null || v.isEmpty ? "Enter title" : null),
-              TextFormField(controller: contentController, decoration: const InputDecoration(labelText: "Content"), minLines: 5, maxLines: 10, validator: (v) => v == null || v.isEmpty ? "Enter content" : null),
-              const SizedBox(height: 20),
-              loading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    setState(() => loading = true);
-                    final blog = BlogModel(
-                      blogId: const Uuid().v4(),
-                      authorId: authProvider.user!.uid,
-                      authorName: authProvider.userModel!.username,
-                      authorPic: authProvider.userModel!.profilePicUrl,
-                      title: titleController.text,
-                      content: contentController.text,
-                      timestamp: DateTime.now(),
-                      likes: [],
-                    );
-                    await Provider.of<BlogProvider>(context, listen: false).createBlog(blog);
-                    setState(() => loading = false);
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Text("Post"),
-              ),
-            ],
-          ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(labelText: "Title"),
+            ),
+            TextField(
+              controller: _contentController,
+              decoration: const InputDecoration(labelText: "Content"),
+              maxLines: 5,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                final newBlog = Blog(
+                  blogId: '',
+                  authorId: user.uid,
+                  authorName: user.displayName ?? 'Unknown',
+                  title: _titleController.text,
+                  content: _contentController.text,
+                  timestamp: DateTime.now(),
+                  likes: [],
+                );
+                await blogProvider.createBlog(newBlog);
+                Navigator.pop(context);
+              },
+              child: const Text("Post Blog"),
+            )
+          ],
         ),
       ),
     );

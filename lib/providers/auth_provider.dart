@@ -1,41 +1,49 @@
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/user_model.dart';
-import '../services/auth_service.dart';
-import '../services/user_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthProvider extends ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
-  UserModel? _userModel;
-  final AuthService _authService = AuthService();
-  final UserService _userService = UserService();
 
   User? get user => _user;
-  UserModel? get userModel => _userModel;
+  bool get isLoggedIn => _user != null;
 
   AuthProvider() {
-    _authService.userStream.listen(_onAuthStateChanged);
+    _auth.authStateChanges().listen((user) {
+      _user = user;
+      notifyListeners();
+    });
   }
 
-  void _onAuthStateChanged(User? user) async {
-    _user = user;
-    if (user != null) {
-      _userModel = await _userService.getUser(user.uid);
-    } else {
-      _userModel = null;
+  Future<String?> login(String email, String password) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return null;
+    } catch (e) {
+      return e.toString();
     }
-    notifyListeners();
   }
 
-  Future<void> login(String email, String password) async {
-    await _authService.signIn(email, password);
-  }
-
-  Future<void> signup(String email, String password, String username, String profilePicUrl) async {
-    await _authService.signUp(email, password, username, profilePicUrl);
+  Future<String?> signup(String email, String password, String username, String profileUrl) async {
+    try {
+      final UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
+        'uid': cred.user!.uid,
+        'email': email,
+        'username': username,
+        'profilePicUrl': profileUrl,
+        'followers': [],
+        'following': [],
+      });
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   Future<void> logout() async {
-    await _authService.signOut();
+    await _auth.signOut();
   }
 }

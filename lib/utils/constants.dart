@@ -1,2 +1,1 @@
-const defaultProfilePic =
-    "https://www.gravatar.com/avatar/placeholder?d=mp&s=200";
+// TODO: Implement constants.dart

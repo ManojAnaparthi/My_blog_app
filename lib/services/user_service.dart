@@ -1,41 +1,34 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user_model.dart';
 
 class UserService {
-  final _usersCollection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference _userRef = FirebaseFirestore.instance.collection('users');
 
-  Future<UserModel?> getUser(String uid) async {
-    final doc = await _usersCollection.doc(uid).get();
-    if (doc.exists) return UserModel.fromMap(doc.data()!);
-    return null;
+  Future<AppUser> getUserById(String uid) async {
+    DocumentSnapshot snapshot = await _userRef.doc(uid).get();
+    return AppUser.fromMap(snapshot.data() as Map<String, dynamic>);
   }
 
-  Future<List<UserModel>> getUsersByIds(List<String> uids) async {
-    if (uids.isEmpty) return [];
-    final snap = await _usersCollection.where('uid', whereIn: uids).get();
-    return snap.docs.map((e) => UserModel.fromMap(e.data())).toList();
-  }
+  Future<void> toggleFollow(String currentUserId, String targetUserId) async {
+    DocumentReference currentRef = _userRef.doc(currentUserId);
+    DocumentReference targetRef = _userRef.doc(targetUserId);
 
-  Future<List<UserModel>> getAllUsers() async {
-    final snap = await _usersCollection.get();
-    return snap.docs.map((e) => UserModel.fromMap(e.data())).toList();
-  }
+    DocumentSnapshot currentSnap = await currentRef.get();
+    DocumentSnapshot targetSnap = await targetRef.get();
 
-  Future<void> followUser(String currentUid, String targetUid) async {
-    await _usersCollection.doc(currentUid).update({
-      'following': FieldValue.arrayUnion([targetUid])
-    });
-    await _usersCollection.doc(targetUid).update({
-      'followers': FieldValue.arrayUnion([currentUid])
-    });
-  }
+    List<String> currentFollowing = List<String>.from(currentSnap['following']);
+    List<String> targetFollowers = List<String>.from(targetSnap['followers']);
 
-  Future<void> unfollowUser(String currentUid, String targetUid) async {
-    await _usersCollection.doc(currentUid).update({
-      'following': FieldValue.arrayRemove([targetUid])
-    });
-    await _usersCollection.doc(targetUid).update({
-      'followers': FieldValue.arrayRemove([currentUid])
-    });
+    if (currentFollowing.contains(targetUserId)) {
+      currentFollowing.remove(targetUserId);
+      targetFollowers.remove(currentUserId);
+    } else {
+      currentFollowing.add(targetUserId);
+      targetFollowers.add(currentUserId);
+    }
+
+    await currentRef.update({'following': currentFollowing});
+    await targetRef.update({'followers': targetFollowers});
   }
 }

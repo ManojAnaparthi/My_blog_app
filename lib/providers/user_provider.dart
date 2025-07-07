@@ -2,14 +2,27 @@ import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../services/user_service.dart';
 
-class UserProvider with ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   final UserService _userService = UserService();
-  UserModel? _user;
 
-  UserModel? get user => _user;
+  AppUser? _currentUser;
+  AppUser? _viewedUser;
 
-  Future<void> loadUser(String uid) async {
-    _user = await _userService.getUser(uid);
+  AppUser? get currentUser => _currentUser;
+  AppUser? get viewedUser => _viewedUser;
+
+  Future<void> loadCurrentUser(String uid) async {
+    _currentUser = await _userService.getUserById(uid);
     notifyListeners();
+  }
+
+  Future<void> fetchUser(String uid) async {
+    _viewedUser = await _userService.getUserById(uid);
+    notifyListeners();
+  }
+
+  Future<void> toggleFollow(String currentUserId, String targetUserId) async {
+    await _userService.toggleFollow(currentUserId, targetUserId);
+    await fetchUser(targetUserId);
   }
 }
