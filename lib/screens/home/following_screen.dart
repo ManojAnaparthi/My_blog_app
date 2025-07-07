@@ -16,7 +16,7 @@ class FollowingScreen extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context);
 
     final currentUser = authProvider.user!;
-    final followedIds = userProvider.viewedUser?.following ?? [];
+    final followedIds = userProvider.currentUser?.following ?? [];
 
     final followedBlogs = blogProvider.blogs
         .where((blog) => followedIds.contains(blog.authorId))

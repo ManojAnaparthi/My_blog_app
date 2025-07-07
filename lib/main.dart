@@ -10,6 +10,7 @@ import 'screens/auth/signup_screen.dart';
 import 'screens/home/explore_screen.dart';
 import 'screens/blog/create_blog_screen.dart';
 import 'screens/home/profile_screen.dart';
+import 'screens/home/following_screen.dart';
 import 'screens/blog/blog_detail_screen.dart';
 import 'screens/blog/edit_blog_screen.dart';
 import 'models/blog_model.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
               '/signup': (_) => const SignupScreen(),
               '/explore': (_) => const ExploreScreen(),
               '/createBlog': (_) => const CreateBlogScreen(),
+              '/following': (_) => const FollowingScreen(),
               '/profile': (context) {
                 final uid = ModalRoute.of(context)!.settings.arguments as String;
                 return ProfileScreen(uid: uid);

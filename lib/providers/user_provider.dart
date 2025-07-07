@@ -7,9 +7,11 @@ class UserProvider extends ChangeNotifier {
 
   AppUser? _currentUser;
   AppUser? _viewedUser;
+  bool _isLoadingViewedUser = false;
 
   AppUser? get currentUser => _currentUser;
   AppUser? get viewedUser => _viewedUser;
+  bool get isLoadingViewedUser => _isLoadingViewedUser;
 
   Future<void> loadCurrentUser(String uid) async {
     _currentUser = await _userService.getUserById(uid);
@@ -17,8 +19,17 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> fetchUser(String uid) async {
-    _viewedUser = await _userService.getUserById(uid);
+    if (_isLoadingViewedUser) return; // Prevent multiple simultaneous requests
+    
+    _isLoadingViewedUser = true;
     notifyListeners();
+    
+    try {
+      _viewedUser = await _userService.getUserById(uid);
+    } finally {
+      _isLoadingViewedUser = false;
+      notifyListeners();
+    }
   }
 
   Future<void> toggleFollow(String currentUserId, String targetUserId) async {
