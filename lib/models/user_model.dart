@@ -1,37 +1,36 @@
-
-class AppUser {
+class UserModel {
   final String uid;
-  final String email;
   final String username;
+  final String email;
   final String profilePicUrl;
   final List<String> followers;
   final List<String> following;
 
-  AppUser({
+  UserModel({
     required this.uid,
-    required this.email,
     required this.username,
+    required this.email,
     required this.profilePicUrl,
     required this.followers,
     required this.following,
   });
 
-  factory AppUser.fromMap(Map<String, dynamic> data) {
-    return AppUser(
-      uid: data['uid'],
-      email: data['email'],
-      username: data['username'],
-      profilePicUrl: data['profilePicUrl'],
-      followers: List<String>.from(data['followers']),
-      following: List<String>.from(data['following']),
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      uid: map['uid'],
+      username: map['username'],
+      email: map['email'],
+      profilePicUrl: map['profilePicUrl'],
+      followers: List<String>.from(map['followers'] ?? []),
+      following: List<String>.from(map['following'] ?? []),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
-      'email': email,
       'username': username,
+      'email': email,
       'profilePicUrl': profilePicUrl,
       'followers': followers,
       'following': following,

@@ -1,28 +1,45 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/blog_model.dart';
 
 class BlogService {
-  final CollectionReference _blogRef = FirebaseFirestore.instance.collection('blogs');
+  final _blogsCollection = FirebaseFirestore.instance.collection('blogs');
 
-  Stream<List<Blog>> getAllBlogs() {
-    return _blogRef.orderBy('timestamp', descending: true).snapshots().map((snapshot) =>
-      snapshot.docs.map((doc) => Blog.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList());
+  Future<void> createBlog(BlogModel blog) async {
+    await _blogsCollection.doc(blog.blogId).set(blog.toMap());
   }
 
-  Future<void> createBlog(Blog blog) async {
-    await _blogRef.add(blog.toMap());
+  Future<void> updateBlog(BlogModel blog) async {
+    await _blogsCollection.doc(blog.blogId).update(blog.toMap());
   }
 
-  Future<void> toggleLike(String blogId, String uid) async {
-    DocumentReference doc = _blogRef.doc(blogId);
-    DocumentSnapshot snapshot = await doc.get();
-    List<String> likes = List<String>.from((snapshot.data() as Map<String, dynamic>)['likes']);
-    if (likes.contains(uid)) {
-      likes.remove(uid);
-    } else {
-      likes.add(uid);
-    }
-    await doc.update({'likes': likes});
+  Future<void> deleteBlog(String blogId) async {
+    await _blogsCollection.doc(blogId).delete();
+  }
+
+  Stream<List<BlogModel>> getAllBlogs() {
+    return _blogsCollection.orderBy('timestamp', descending: true).snapshots().map(
+          (snapshot) => snapshot.docs.map((doc) => BlogModel.fromMap(doc.data())).toList(),
+    );
+  }
+
+  Stream<List<BlogModel>> getBlogsByUserIds(List<String> userIds) {
+    if (userIds.isEmpty) return Stream.value([]);
+    return _blogsCollection
+        .where('authorId', whereIn: userIds)
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => BlogModel.fromMap(doc.data())).toList());
+  }
+
+  Future<void> likeBlog(String blogId, String uid) async {
+    await _blogsCollection.doc(blogId).update({
+      'likes': FieldValue.arrayUnion([uid]),
+    });
+  }
+
+  Future<void> unlikeBlog(String blogId, String uid) async {
+    await _blogsCollection.doc(blogId).update({
+      'likes': FieldValue.arrayRemove([uid]),
+    });
   }
 }

@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 
 class UserTile extends StatelessWidget {
-  final AppUser user;
-  final VoidCallback onTap;
+  final UserModel user;
+  final VoidCallback? onFollow;
+  final VoidCallback? onUnfollow;
+  final bool isFollowing;
 
-  const UserTile({super.key, required this.user, required this.onTap});
+  const UserTile({required this.user, this.onFollow, this.onUnfollow, this.isFollowing = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,9 @@ class UserTile extends StatelessWidget {
       leading: CircleAvatar(backgroundImage: NetworkImage(user.profilePicUrl)),
       title: Text(user.username),
       subtitle: Text(user.email),
-      onTap: onTap,
+      trailing: isFollowing
+          ? TextButton(onPressed: onUnfollow, child: const Text('Unfollow'))
+          : TextButton(onPressed: onFollow, child: const Text('Follow')),
     );
   }
 }

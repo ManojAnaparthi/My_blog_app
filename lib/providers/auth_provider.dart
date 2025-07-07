@@ -1,49 +1,41 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/user_model.dart';
+import '../services/auth_service.dart';
+import '../services/user_service.dart';
 
-class AuthProvider extends ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class AuthProvider with ChangeNotifier {
   User? _user;
+  UserModel? _userModel;
+  final AuthService _authService = AuthService();
+  final UserService _userService = UserService();
 
   User? get user => _user;
-  bool get isLoggedIn => _user != null;
+  UserModel? get userModel => _userModel;
 
   AuthProvider() {
-    _auth.authStateChanges().listen((user) {
-      _user = user;
-      notifyListeners();
-    });
+    _authService.userStream.listen(_onAuthStateChanged);
   }
 
-  Future<String?> login(String email, String password) async {
-    try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return null;
-    } catch (e) {
-      return e.toString();
+  void _onAuthStateChanged(User? user) async {
+    _user = user;
+    if (user != null) {
+      _userModel = await _userService.getUser(user.uid);
+    } else {
+      _userModel = null;
     }
+    notifyListeners();
   }
 
-  Future<String?> signup(String email, String password, String username, String profileUrl) async {
-    try {
-      final UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      await FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
-        'uid': cred.user!.uid,
-        'email': email,
-        'username': username,
-        'profilePicUrl': profileUrl,
-        'followers': [],
-        'following': [],
-      });
-      return null;
-    } catch (e) {
-      return e.toString();
-    }
+  Future<void> login(String email, String password) async {
+    await _authService.signIn(email, password);
+  }
+
+  Future<void> signup(String email, String password, String username, String profilePicUrl) async {
+    await _authService.signUp(email, password, username, profilePicUrl);
   }
 
   Future<void> logout() async {
-    await _auth.signOut();
+    await _authService.signOut();
   }
 }

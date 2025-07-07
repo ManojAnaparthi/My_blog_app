@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:459924356957:android:3a677a92865549095932b4',
     messagingSenderId: '459924356957',
     projectId: 'my-blog-app-9dbf7',
+    databaseURL: 'https://my-blog-app-9dbf7-default-rtdb.firebaseio.com',
     storageBucket: 'my-blog-app-9dbf7.firebasestorage.app',
   );
 
@@ -62,6 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:459924356957:ios:ec350477cf13dd375932b4',
     messagingSenderId: '459924356957',
     projectId: 'my-blog-app-9dbf7',
+    databaseURL: 'https://my-blog-app-9dbf7-default-rtdb.firebaseio.com',
     storageBucket: 'my-blog-app-9dbf7.firebasestorage.app',
     iosBundleId: 'com.example.blogApp',
   );

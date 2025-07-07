@@ -1,62 +1,66 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../models/blog_model.dart';
-import '../../../providers/blog_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-class EditBlogScreen extends StatefulWidget {
-  final Blog blog;
-  const EditBlogScreen({super.key, required this.blog});
+import '../../models/blog_model.dart';
+import '../../providers/blog_provider.dart';
 
+class EditBlogScreen extends StatefulWidget {
+  final BlogModel blog;
+  const EditBlogScreen({required this.blog, super.key});
   @override
   State<EditBlogScreen> createState() => _EditBlogScreenState();
 }
 
 class _EditBlogScreenState extends State<EditBlogScreen> {
-  late TextEditingController _titleController;
-  late TextEditingController _contentController;
+  late TextEditingController titleController;
+  late TextEditingController contentController;
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   @override
   void initState() {
+    titleController = TextEditingController(text: widget.blog.title);
+    contentController = TextEditingController(text: widget.blog.content);
     super.initState();
-    _titleController = TextEditingController(text: widget.blog.title);
-    _contentController = TextEditingController(text: widget.blog.content);
   }
 
   @override
   Widget build(BuildContext context) {
-    final blogProvider = Provider.of<BlogProvider>(context);
-
     return Scaffold(
-      appBar: AppBar(title: const Text("Edit Blog")),
+      appBar: AppBar(title: const Text('Edit Blog')),
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: "Title"),
-            ),
-            TextField(
-              controller: _contentController,
-              decoration: const InputDecoration(labelText: "Content"),
-              maxLines: 6,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection('blogs')
-                    .doc(widget.blog.blogId)
-                    .update({
-                  'title': _titleController.text,
-                  'content': _contentController.text,
-                });
-                Navigator.pop(context);
-              },
-              child: const Text("Update Blog"),
-            )
-          ],
+        padding: const EdgeInsets.all(20.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(controller: titleController, decoration: const InputDecoration(labelText: "Title"), validator: (v) => v == null || v.isEmpty ? "Enter title" : null),
+              TextFormField(controller: contentController, decoration: const InputDecoration(labelText: "Content"), minLines: 5, maxLines: 10, validator: (v) => v == null || v.isEmpty ? "Enter content" : null),
+              const SizedBox(height: 20),
+              loading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    setState(() => loading = true);
+                    final updatedBlog = BlogModel(
+                      blogId: widget.blog.blogId,
+                      authorId: widget.blog.authorId,
+                      authorName: widget.blog.authorName,
+                      authorPic: widget.blog.authorPic,
+                      title: titleController.text,
+                      content: contentController.text,
+                      timestamp: DateTime.now(),
+                      likes: widget.blog.likes,
+                    );
+                    await Provider.of<BlogProvider>(context, listen: false).updateBlog(updatedBlog);
+                    setState(() => loading = false);
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text("Save"),
+              ),
+            ],
+          ),
         ),
       ),
     );

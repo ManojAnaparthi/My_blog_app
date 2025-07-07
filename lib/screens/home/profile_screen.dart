@@ -1,78 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/user_provider.dart';
-import '../../../providers/blog_provider.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../widgets/blog_tile.dart';
+import '../../providers/auth_provider.dart';
+import '../../widgets/blog_tile.dart';
+import '../../providers/blog_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final String uid;
-  const ProfileScreen({super.key, required this.uid});
-
+  const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    final blogProvider = Provider.of<BlogProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
-
-    final viewedUser = userProvider.viewedUser;
-    final currentUser = userProvider.currentUser;
-
-    if (viewedUser == null || viewedUser.uid != uid) {
-      userProvider.fetchUser(uid);
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    final userBlogs = blogProvider.blogs
-        .where((blog) => blog.authorId == viewedUser.uid)
-        .toList();
+    final blogProvider = Provider.of<BlogProvider>(context, listen: false);
+    final user = authProvider.userModel;
 
     return Scaffold(
-      appBar: AppBar(title: Text(viewedUser.username)),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(viewedUser.profilePicUrl),
-              radius: 40,
+      appBar: AppBar(
+        title: const Text("Profile"),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await authProvider.logout();
+              },
+              icon: const Icon(Icons.logout))
+        ],
+      ),
+      body: user == null
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+        children: [
+          const SizedBox(height: 16),
+          CircleAvatar(
+            radius: 48,
+            backgroundImage: NetworkImage(user.profilePicUrl),
+          ),
+          const SizedBox(height: 8),
+          Text(user.username, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          Text(user.email),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(children: [
+                Text('${user.followers.length}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                const Text('Followers'),
+              ]),
+              const SizedBox(width: 24),
+              Column(children: [
+                Text('${user.following.length}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                const Text('Following'),
+              ]),
+            ],
+          ),
+          const Divider(),
+          const Text("My Blogs", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          Expanded(
+            child: StreamBuilder(
+              stream: blogProvider.getBlogsByUserIds([user.uid]),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+                final blogs = snapshot.data!;
+                if (blogs.isEmpty) return const Center(child: Text("No blogs yet"));
+                return ListView.builder(
+                  itemCount: blogs.length,
+                  itemBuilder: (ctx, idx) => BlogTile(blog: blogs[idx]),
+                );
+              },
             ),
-            const SizedBox(height: 12),
-            Text(viewedUser.username,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            Text(viewedUser.email),
-            const SizedBox(height: 8),
-            Text("Followers: ${viewedUser.followers.length}"),
-            Text("Following: ${viewedUser.following.length}"),
-            const SizedBox(height: 12),
-            if (viewedUser.uid != currentUser?.uid)
-              ElevatedButton(
-                onPressed: () async {
-                  await userProvider.toggleFollow(currentUser!.uid, viewedUser.uid);
-                  await userProvider.loadCurrentUser(currentUser.uid);
-                },
-                child: Text(
-                  currentUser!.following.contains(viewedUser.uid) ? 'Unfollow' : 'Follow',
-                ),
-              ),
-            const Divider(),
-            const SizedBox(height: 8),
-            const Text('Blogs:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Expanded(
-              child: ListView.builder(
-                itemCount: userBlogs.length,
-                itemBuilder: (context, index) {
-                  return BlogTile(
-                    blog: userBlogs[index],
-                    currentUserId: authProvider.user!.uid,
-                  );
-                },
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

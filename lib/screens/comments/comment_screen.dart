@@ -1,50 +1,52 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../models/comment_model.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../services/comment_service.dart';
+import 'package:uuid/uuid.dart';
+import '../../providers/auth_provider.dart';
+import '../../services/comment_service.dart';
+import '../../models/comment_model.dart';
 
 class CommentScreen extends StatefulWidget {
   final String blogId;
   final String blogAuthorId;
-
-  const CommentScreen({super.key, required this.blogId, required this.blogAuthorId});
-
+  const CommentScreen({required this.blogId, required this.blogAuthorId, super.key});
   @override
   State<CommentScreen> createState() => _CommentScreenState();
 }
 
 class _CommentScreenState extends State<CommentScreen> {
-  final CommentService _commentService = CommentService();
-  final TextEditingController _controller = TextEditingController();
+  final commentController = TextEditingController();
+  final commentService = CommentService();
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthProvider>(context).user!;
-
+    final user = Provider.of<AuthProvider>(context).userModel!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Comments')),
+      appBar: AppBar(title: const Text("Comments")),
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<List<Comment>>(
-              stream: _commentService.getComments(widget.blogId),
+            child: StreamBuilder<List<CommentModel>>(
+              stream: commentService.getComments(widget.blogId),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
                 final comments = snapshot.data!;
+                if (comments.isEmpty) return const Center(child: Text("No comments yet"));
                 return ListView.builder(
                   itemCount: comments.length,
-                  itemBuilder: (context, index) {
-                    final comment = comments[index];
+                  itemBuilder: (ctx, idx) {
+                    final comment = comments[idx];
+                    final canDelete = comment.commenterId == user.uid || widget.blogAuthorId == user.uid;
                     return ListTile(
-                      title: Text(comment.content),
-                      subtitle: Text(comment.timestamp.toLocal().toString()),
-                      trailing: (comment.commenterId == user.uid || widget.blogAuthorId == user.uid)
+                      leading: CircleAvatar(backgroundImage: NetworkImage(comment.commenterPic)),
+                      title: Text(comment.commenterName),
+                      subtitle: Text(comment.content),
+                      trailing: canDelete
                           ? IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () => _commentService.deleteComment(widget.blogId, comment.commentId),
-                            )
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () async {
+                          await commentService.deleteComment(widget.blogId, comment.commentId);
+                        },
+                      )
                           : null,
                     );
                   },
@@ -53,26 +55,24 @@ class _CommentScreenState extends State<CommentScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(hintText: 'Add a comment...'),
-                  ),
-                ),
+                Expanded(child: TextField(controller: commentController, decoration: const InputDecoration(hintText: "Write a comment..."))),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  onPressed: () {
-                    final newComment = Comment(
-                      commentId: '',
+                  onPressed: () async {
+                    if (commentController.text.trim().isEmpty) return;
+                    final comment = CommentModel(
+                      commentId: const Uuid().v4(),
                       commenterId: user.uid,
-                      content: _controller.text,
+                      commenterName: user.username,
+                      commenterPic: user.profilePicUrl,
+                      content: commentController.text.trim(),
                       timestamp: DateTime.now(),
                     );
-                    _commentService.addComment(widget.blogId, newComment);
-                    _controller.clear();
+                    await commentService.addComment(widget.blogId, comment);
+                    commentController.clear();
                   },
                 )
               ],

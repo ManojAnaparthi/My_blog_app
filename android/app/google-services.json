@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "459924356957",
+    "firebase_url": "https://my-blog-app-9dbf7-default-rtdb.firebaseio.com",
     "project_id": "my-blog-app-9dbf7",
     "storage_bucket": "my-blog-app-9dbf7.firebasestorage.app"
   },

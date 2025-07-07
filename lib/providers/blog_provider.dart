@@ -1,22 +1,28 @@
-
 import 'package:flutter/material.dart';
 import '../models/blog_model.dart';
 import '../services/blog_service.dart';
 
-class BlogProvider extends ChangeNotifier {
+class BlogProvider with ChangeNotifier {
   final BlogService _blogService = BlogService();
-  List<Blog> _blogs = [];
+  List<BlogModel> _blogs = [];
+  List<BlogModel> get blogs => _blogs;
 
-  List<Blog> get blogs => _blogs;
-
-  BlogProvider() {
+  void listenToBlogs() {
     _blogService.getAllBlogs().listen((blogList) {
       _blogs = blogList;
       notifyListeners();
     });
   }
 
-  Future<void> createBlog(Blog blog) => _blogService.createBlog(blog);
+  Stream<List<BlogModel>> getBlogsByUserIds(List<String> uids) =>
+      _blogService.getBlogsByUserIds(uids);
 
-  Future<void> toggleLike(String blogId, String uid) => _blogService.toggleLike(blogId, uid);
+  Future<void> createBlog(BlogModel blog) => _blogService.createBlog(blog);
+  Future<void> updateBlog(BlogModel blog) => _blogService.updateBlog(blog);
+  Future<void> deleteBlog(String blogId) => _blogService.deleteBlog(blogId);
+
+  Future<void> likeBlog(String blogId, String uid) =>
+      _blogService.likeBlog(blogId, uid);
+  Future<void> unlikeBlog(String blogId, String uid) =>
+      _blogService.unlikeBlog(blogId, uid);
 }
