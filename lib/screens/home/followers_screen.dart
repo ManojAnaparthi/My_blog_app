@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/user_provider.dart';
-import '../../../services/user_service.dart';
 import '../../../models/user_model.dart';
+import '../../../services/user_service.dart';
 
-class FollowingScreen extends StatelessWidget {
-  const FollowingScreen({super.key});
+class FollowersScreen extends StatelessWidget {
+  const FollowersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +16,15 @@ class FollowingScreen extends StatelessWidget {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-    final following = viewedUser.following;
+    final followers = viewedUser.followers;
     return Scaffold(
-      appBar: AppBar(title: const Text('Following')),
+      appBar: AppBar(title: const Text('Followers')),
       body: ListView.builder(
-        itemCount: following.length,
+        itemCount: followers.length,
         itemBuilder: (context, index) {
-          final followingId = following[index];
+          final followerId = followers[index];
           return FutureBuilder<AppUser?>(
-            future: UserService().getUserById(followingId),
+            future: UserService().getUserById(followerId),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const ListTile(title: Text('Loading...'));

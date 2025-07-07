@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../models/blog_model.dart';
 import '../../../providers/blog_provider.dart';
 import '../../../providers/auth_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateBlogScreen extends StatefulWidget {
   const CreateBlogScreen({super.key});
@@ -40,17 +40,23 @@ class _CreateBlogScreenState extends State<CreateBlogScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
+                // Fetch username from Firestore
+                final userDoc = await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .get();
+                final username = userDoc.data()?['username'] ?? 'Unknown';
                 final newBlog = Blog(
-                  blogId: '',
+                  blogId: '', // Will be set in BlogService
                   authorId: user.uid,
-                  authorName: user.displayName ?? 'Unknown',
+                  authorName: username,
                   title: _titleController.text,
                   content: _contentController.text,
                   timestamp: DateTime.now(),
                   likes: [],
                 );
                 await blogProvider.createBlog(newBlog);
-                Navigator.pop(context);
+                if (mounted) Navigator.pop(context);
               },
               child: const Text("Post Blog"),
             )
