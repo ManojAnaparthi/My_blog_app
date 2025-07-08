@@ -44,6 +44,7 @@
 ---
 
 
+
 ## 🎥 Demo Video
 
 <div align="center">
@@ -51,6 +52,8 @@
     Your browser does not support the video tag.
   </video>
 </div>
+
+**[▶️ Click here to watch the demo video](Demo/Demo_VID.mp4)**
 
 ---
 
