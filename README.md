@@ -20,23 +20,37 @@
 
 
 
+
 ## 📷 Screenshots
 
-<img src="https://github.com/user-attachments/assets/35db1c06-1fb8-4143-9bbb-f84dc3f8b08b" width="200">
-<img src="https://github.com/user-attachments/assets/da2ecf97-733b-42ca-ab3a-0fc14c3657cc" width="200">
-<img src="https://github.com/user-attachments/assets/189dca73-bb1a-4dd6-9eac-c12804e0f169" width="200">
-<img src="https://github.com/user-attachments/assets/10ddd4b3-6ff6-4c8e-a99f-b5b8a8f9ab32" width="200">
-<img src="https://github.com/user-attachments/assets/2c68b401-ad1f-499e-befd-7b49da1e4871" width="200">
-<img src="https://github.com/user-attachments/assets/03d07824-d44f-4f27-9734-3b768f161cfa" width="200">
-<img src="https://github.com/user-attachments/assets/d2466976-1505-4a9b-95a0-b4c9913aed87" width="200">
-<img src="https://github.com/user-attachments/assets/c3a50340-a55a-4e28-8abf-283947cbea0f" width="200">
+<div align="center">
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.36_9ece40d2.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.36_f413d86a.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.37_74b04071.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.37_82cd1718.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.37_9d8c6fda.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.38_69f99052.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.38_8466a3a4.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.38_c739f358.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.39_0c439888.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.39_a17421c2.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.39_cd4a004e.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.40_58155f1b.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.40_d3de4cbc.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.40_ea80660d.jpg" width="160" style="margin:4px;" />
+</div>
 
 
 ---
 
-## 🎥 Screen Recording
 
-▶️ [Watch Demo](https://github.com/user-attachments/assets/c5b113e1-eb59-4367-a2a6-b9a177369f4a)
+## 🎥 Demo Video
+
+<div align="center">
+  <video src="Demo/Demo_VID.mp4" width="320" controls>
+    Your browser does not support the video tag.
+  </video>
+</div>
 
 ---
 
