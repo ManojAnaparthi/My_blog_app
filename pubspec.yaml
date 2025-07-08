@@ -1,3 +1,7 @@
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/images/blog.png"
 name: blog_app
 description: A Flutter Blog App with social features using Firebase.
 publish_to: 'none'
@@ -15,6 +19,8 @@ dependencies:
   provider: ^6.1.1
   uuid: ^4.0.0
   cached_network_image: ^3.3.1
+  lottie: ^3.3.1
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -24,3 +30,4 @@ flutter:
   uses-material-design: true
   assets:
     - lib/images/175191701450420a90bcw.png
+    - lib/assets/loading.json

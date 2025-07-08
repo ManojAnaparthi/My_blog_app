@@ -25,7 +25,6 @@ class BlogService {
   }
 
   Future<void> createBlog(Blog blog) async {
-    // Generate a new document ID
     DocumentReference docRef = _blogRef.doc();
     final blogWithId = Blog(
       blogId: docRef.id,

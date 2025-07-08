@@ -22,9 +22,6 @@ class BlogProvider extends ChangeNotifier {
 
   Future<void> createBlog(Blog blog) async {
     await _blogService.createBlog(blog);
-    // Optionally, you can fetch blogs again or rely on the stream
-    // _blogs = await _blogService.getAllBlogs().first;
-    // notifyListeners();
   }
 
   Future<void> toggleLike(String blogId, String uid) =>

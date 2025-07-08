@@ -40,14 +40,13 @@ class _CreateBlogScreenState extends State<CreateBlogScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                // Fetch username from Firestore
                 final userDoc = await FirebaseFirestore.instance
                     .collection('users')
                     .doc(user.uid)
                     .get();
                 final username = userDoc.data()?['username'] ?? 'Unknown';
                 final newBlog = Blog(
-                  blogId: '', // Will be set in BlogService
+                  blogId: '',
                   authorId: user.uid,
                   authorName: username,
                   title: _titleController.text,

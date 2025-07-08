@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../services/user_service.dart';
 import '../../../models/user_model.dart';
+import '../../widgets/lottie_loading.dart';
 
 class FollowingScreen extends StatelessWidget {
   const FollowingScreen({super.key});
@@ -13,7 +14,7 @@ class FollowingScreen extends StatelessWidget {
     final viewedUser = userProvider.viewedUser;
     if (viewedUser == null) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(child: LottieLoading()),
       );
     }
     final following = viewedUser.following;

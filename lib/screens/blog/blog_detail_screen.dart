@@ -4,6 +4,7 @@ import '../../../models/blog_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/blog_provider.dart';
 import '../comments/comment_screen.dart';
+import '../../widgets/lottie_loading.dart';
 
 class BlogDetailScreen extends StatelessWidget {
   final Blog blog;
@@ -18,7 +19,7 @@ class BlogDetailScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(child: LottieLoading()),
           );
         }
         final blogData = snapshot.data!;

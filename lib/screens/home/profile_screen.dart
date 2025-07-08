@@ -4,6 +4,7 @@ import '../../../providers/user_provider.dart';
 import '../../../providers/blog_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../widgets/blog_tile.dart';
+import '../../../widgets/lottie_loading.dart';
 import 'followers_screen.dart';
 import 'following_screen.dart';
 
@@ -36,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(child: LottieLoading()),
           );
         }
 

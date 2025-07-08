@@ -23,8 +23,6 @@ class _EditBlogScreenState extends State<EditBlogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final blogProvider = Provider.of<BlogProvider>(context); // Removed unused variable
-
     return Scaffold(
       appBar: AppBar(title: const Text("Edit Blog")),
       body: Padding(
