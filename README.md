@@ -70,8 +70,8 @@ blog_app/
 - ❤️ Like and comment on posts
 - 👤 View user profiles
 - 🧑‍🤝‍🧑 Follow and unfollow other users
-- 🌐 Explore all blogs or filter by followed users
-- 📸 Profile pictures with caching support
+- 🌐 Explore all blogs
+- 📸 Profile pictures
 - 🔐 Firebase Authentication
 - 🔄 Real-time updates using Firestore and Provider
 
