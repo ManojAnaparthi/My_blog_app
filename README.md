@@ -26,8 +26,8 @@
 <div align="center">
   <img src="Demo/screenshots/signup.jpg" width="160" style="margin:4px;" title="Signup" />
   <img src="Demo/screenshots/login.jpg" width="160" style="margin:4px;" title="Login" />
-  <img src="Demo/screenshots/view_blog.jpg" width="160" style="margin:4px;" title="Explore" />
   <img src="Demo/screenshots/create_blog.jpg" width="160" style="margin:4px;" title="Create Blog" />
+  <img src="Demo/screenshots/view_blog.jpg" width="160" style="margin:4px;" title="Explore" />
   <img src="Demo/screenshots/edit_blog.jpg" width="160" style="margin:4px;" title="Edit Blog" />
   <img src="Demo/screenshots/delete_blog.jpg" width="160" style="margin:4px;" title="Delete Blog" />
   <img src="Demo/screenshots/likes.jpg" width="160" style="margin:4px;" title="Likes" />
