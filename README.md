@@ -47,13 +47,7 @@
 
 ## 🎥 Demo Video
 
-<div align="center">
-  <video src="Demo/Demo_VID.mp4" width="320" controls>
-    Your browser does not support the video tag.
-  </video>
-</div>
-
-**[▶️ Click here to watch the demo video](Demo/Demo_VID.mp4)**
+**[▶️ Click here to watch the demo video](https://drive.google.com/file/d/17YKkntm_VwRFaQIG2QbMQlLSxTvGnYzg/view?usp=drive_link)**
 
 ---
 
