@@ -10,40 +10,14 @@
 - [Features](#-features)
 - [Screenshots](#-screenshots)
 - [Demo Video](#-demo-video)
-- [Getting Started](#-getting-started)
 - [Firestore Database Schema](#-firestore-database-schema)
 - [Tech Stack](#-tech-stack)
 - [Packages Used](#-packages-used)
 - [Folder Structure](#-folder-structure)
 - [Student Details](#-student-details)
 
-## 🛠️ Getting Started
-
-Follow these steps to set up and run the project locally:
-
-1. **Clone the repository:**
-   ```sh
-   git clone <repo-url>
-   cd blog_app
-   ```
-2. **Install dependencies:**
-   ```sh
-   flutter pub get
-   ```
-3. **Set up Firebase:**
-   - Add your `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) to the respective folders as per Firebase setup instructions.
-4. **Run the app:**
-   ```sh
-   flutter run
-   ```
-5. **Build for release:**
-   ```sh
-   flutter build apk --release
-   # or for iOS
-   flutter build ios --release
-   ```
-
 ---
+
 ## 📁 Folder Structure
 
 ```
