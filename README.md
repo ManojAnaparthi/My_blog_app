@@ -24,20 +24,17 @@
 ## 📷 Screenshots
 
 <div align="center">
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.36_9ece40d2.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.36_f413d86a.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.37_74b04071.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.37_82cd1718.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.37_9d8c6fda.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.38_69f99052.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.38_8466a3a4.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.38_c739f358.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.39_0c439888.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.39_a17421c2.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.39_cd4a004e.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.40_58155f1b.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.40_d3de4cbc.jpg" width="160" style="margin:4px;" />
-  <img src="Demo/screenshots/WhatsApp Image 2025-07-08 at 11.09.40_ea80660d.jpg" width="160" style="margin:4px;" />
+  <img src="Demo/screenshots/signup.jpg" width="160" style="margin:4px;" title="Signup" />
+  <img src="Demo/screenshots/login.jpg" width="160" style="margin:4px;" title="Login" />
+  <img src="Demo/screenshots/view_blog.jpg" width="160" style="margin:4px;" title="Explore" />
+  <img src="Demo/screenshots/create_blog.jpg" width="160" style="margin:4px;" title="Create Blog" />
+  <img src="Demo/screenshots/rename.jpg" width="160" style="margin:4px;" title="Edit Blog" />
+  <img src="Demo/screenshots/delete_blog.jpg" width="160" style="margin:4px;" title="Delete Blog" />
+  <img src="Demo/screenshots/likes.jpg" width="160" style="margin:4px;" title="Likes" />
+  <img src="Demo/screenshots/comments.jpg" width="160" style="margin:4px;" title="Comments" />
+  <img src="Demo/screenshots/u2_profile_unfollowed.jpg" width="160" style="margin:4px;" title="Profile" />
+  <img src="Demo/screenshots/followers.jpg" width="160" style="margin:4px;" title="Followers" />
+  <img src="Demo/screenshots/following.jpg" width="160" style="margin:4px;" title="Following" />
 </div>
 
 
