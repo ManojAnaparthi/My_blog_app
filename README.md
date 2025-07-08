@@ -16,8 +16,6 @@
 - [Packages Used](#-packages-used)
 - [Folder Structure](#-folder-structure)
 - [Student Details](#-student-details)
-- [Notes](#-notes)
-- [Contributing](#-contributing)
 
 ## 🛠️ Getting Started
 
@@ -57,7 +55,7 @@ blog_app/
 │   ├── services/       # Firebase and business logic
 │   ├── utils/          # Constants, validators, helpers
 │   └── widgets/        # Reusable widgets
-├── Demo/               # Screenshots and demo video
+├── Demo/               # Screenshots
 ├── android/            # Android project files
 ├── ios/                # iOS project files
 ├── pubspec.yaml        # Dependencies and assets
@@ -170,24 +168,5 @@ blog_app/
 - **Roll No:** 23110025  
 - **College:** IIT Gandhinagar  
 - **Discipline:** Computer Science and Engineering (CSE)
-
----
-
-## 📝 Notes
-
-> This project was developed as part of the **Week 4 assignment** for the Flutter + Firebase App Development course.  
-> It demonstrates key concepts in authentication, Firestore schema design, and responsive Flutter app architecture.
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/YourFeature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin feature/YourFeature`)
-5. Open a pull request
 
 ---
