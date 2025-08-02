@@ -1,5 +1,5 @@
 
-# My Blog App 📝✨
+# My Blogs
 
 **My Blog App** is a modern, full-featured social blogging platform built with **Flutter** and **Firebase**. Seamlessly create, explore, and engage with blog posts in real time. Features include authentication, real-time updates, following, commenting, and a polished mobile UI/UX ready for production.
 
